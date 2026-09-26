@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "HostPanelPro",
+  "classifications": [ "Library", "HostPanelPro", "Plugin" ],
+  "identity": "HostPanelPro.PluginTemplate",
+  "name": "HostPanelPro Plugin",
+  "shortName": "hpp-plugin",
+  "sourceName": "TechnitiumDNS",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sources": [
+    {
+      "source": "./",
+      "exclude": [
+        ".vs/**",
+        "**/.vs/**",
+        "bin/**",
+        "obj/**"
+      ]
+    }
+  ]
+}
