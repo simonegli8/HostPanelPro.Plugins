@@ -1,6 +1,5 @@
-namespace HostPanelPro.Plugins.PluginName1
+namespace HostPanelPro.Plugins.PluginName1;
+
+public class Portal
 {
-    public class Portal
-    {
-    }
 }

@@ -1,5 +1,5 @@
 {
     "Title": "Technitium DNS Server",
-    "Descritpion": "Technitium DNS, an OpenSource cross Platform DNS Server built with C#",
+    "Description": "Technitium DNS, an OpenSource cross Platform DNS Server built with C#",
     "Version": "1.0.0"
 }

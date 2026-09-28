@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageType>Template</PackageType>
+        <PackageId>HostPanelPro.PluginTemplate</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>HostPanelPro</Authors>
+        <Description>HostPanelPro plugin project template</Description>
+        <PackageTags>dotnet-new;template</PackageTags>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <IncludeContentInPack>true</IncludeContentInPack>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <ContentTargetFolders>content</ContentTargetFolders>
+        <PackageType>Template</PackageType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="HostPanelPro.PluginTemplate\**" />
+        
+        <Content Include="HostPanelPro.PluginTemplate\**"
+            Pack="true"
+            PackagePath="content/PluginName1" 
+            Link="%(RecursiveDir)/%(Filename)%(Extension)" />
+        <Content Remove="HostPanelPro.PluginTemplate\**\.vs\**\*.*" />
+        <Content Remove="HostPanelPro.PluginTemplate\**\bin\**\*.*" />
+        <Content Remove="HostPanelPro.PluginTemplate\**\obj\**\*.*" />
+
+        <None Remove="**" />
+    </ItemGroup>
+
+</Project>
