@@ -13,13 +13,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Linq.Expressions;
 
 namespace HostPanelPro.Plugins;
 
@@ -735,24 +732,13 @@ public class PluginManager
         Func<string, string> mapPath = path => path.Replace('/', Path.DirectorySeparatorChar).Replace("~\\plugins", wwwRoot);
 #endif
 
-        // Move to plugin server folder
         var dest = mapPath($"~/plugins/{id}.7z");
-        if (zipFile != dest) File.Move(zipFile, dest);
+        var temp = (archive || source == null) ? Path.Combine(Path.GetTempPath(), "HostPanelPro.Plugins", id.Id) : source;
 
         // Unzip plugin
-        var temp = (archive || source == null) ? Path.Combine(Path.GetTempPath(), "HostPanelPro.Plugins", id.Id) : source;
-        if (archive) await Zip.Unzip7zFile(dest, temp);
+        if (archive) await Zip.Unzip7zFile(zipFile, temp);
 
-        // Publish auto installer
-        var autoInstaller = Path.Combine(temp, "Server", "AutoInstaller", "bin");
-        var destAutoInstaller = mapPath($"~/plugins/{AutoDir}/{id}.7z");
-
-        if (Directory.Exists(autoInstaller))
-        {
-            await Zip.Zip7zFiles(destAutoInstaller, autoInstaller);
-        }
-
-        // Publish :Infos
+        // Publish Infos
         var info = Path.Combine(temp, "Info");
         var destInfo = mapPath($"~/plugins/.infos");
         if (Directory.Exists(info))
@@ -765,6 +751,13 @@ public class PluginManager
 
             // copy new entries
             var files = Directory.EnumerateFiles(info, "*.*", SearchOption.TopDirectoryOnly);
+            var infosrc = files.FirstOrDefault(file => file.EndsWith(".json", StringComparison.OrdinalIgnoreCase));
+            var plugininfo = File.Exists(infosrc) ?
+                JsonConvert.DeserializeObject<PluginInfo>(File.ReadAllText(infosrc)) :
+                new PluginInfo();
+            plugininfo.Version = id.Version ?? new Version(1, 0, 0);
+            plugininfo.Published = DateTime.UtcNow;
+
             var infos = files
                 .Select(file => new
                 {
@@ -777,32 +770,36 @@ public class PluginManager
             {
                 if (file.Count() > 1) throw new NotSupportedException("Duplicate info files in archive.");
                 var first = file.FirstOrDefault();
-                File.Copy(first.File, Path.Combine(destInfo, $"{id}{first.Extension}"), true);
+                File.Copy(first.File, Path.Combine(destInfo, $"{id.EncodedId}{first.Extension}"), true);
             }
 
-            var infosrc = files.FirstOrDefault(file => file.EndsWith(".json", StringComparison.OrdinalIgnoreCase));
-            var plugininfo = File.Exists(infosrc) ?
-                JsonConvert.DeserializeObject<PluginInfo>(File.ReadAllText(infosrc)) :
-                new PluginInfo();
-            plugininfo.Version = id.Version ?? new Version(1, 0, 0);
-            plugininfo.Published = DateTime.UtcNow;
             var json = JsonConvert.SerializeObject(plugininfo);
-            File.WriteAllText(Path.Combine(destInfo, $"{id}.json"), json);
+            File.WriteAllText(Path.Combine(destInfo, $"{id.EncodedId}.json"), json);
             if (id.Version == null)
             {
                 id.Version = plugininfo.Version;
-                var verdest = mapPath($"~/plugins/{id}.7z");
-                if (Directory.Exists(verdest)) Directory.Delete(verdest, true);
-                Directory.Move(dest, verdest);
+                dest = mapPath($"~/plugins/{id.EncodedId}.7z");
             }
 
-            if (archive) Directory.Delete(temp, true);
-            if (!web)
-            {
-                PublishDirectoryIndex(wwwRoot, "/plugins");
-                foreach (var dir in Directory.EnumerateDirectories(wwwRoot, "*.*", SearchOption.AllDirectories))
-                    PublishDirectoryIndex(dir, dir.Replace(wwwRoot, "/plugins").Replace(Path.DirectorySeparatorChar, '/'));
-            }
+        }
+
+        // Publish auto installer
+        var autoInstaller = Path.Combine(temp, "Server", "AutoInstaller", "bin");
+        var destAutoInstaller = mapPath($"~/plugins/{AutoDir}/{id}.7z");
+        if (Directory.Exists(autoInstaller))
+        {
+            await Zip.Zip7zFiles(destAutoInstaller, autoInstaller);
+        }
+
+        // Move to plugin server folder
+        if (zipFile != dest) File.Move(zipFile, dest);
+
+        if (archive) Directory.Delete(temp, true);
+        if (!web)
+        {
+            PublishDirectoryIndex(wwwRoot, "/plugins");
+            foreach (var dir in Directory.EnumerateDirectories(wwwRoot, "*.*", SearchOption.AllDirectories))
+                PublishDirectoryIndex(dir, dir.Replace(wwwRoot, "/plugins").Replace(Path.DirectorySeparatorChar, '/'));
         }
     }
 
