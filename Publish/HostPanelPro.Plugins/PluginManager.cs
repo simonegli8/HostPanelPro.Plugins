@@ -451,7 +451,7 @@ public class PluginManager
         root = root.Trim('/');
         root = $"/{root}/{path}";
         var items = new HashSet<DirectoryItem>();
-        var hrefRegex = new Regex(@"<a\s+href\s*=\s*[""'](?<path>[^""']+)[""']\s*>(?<name>.*?)</a>", RegexOptions.IgnoreCase);
+        var hrefRegex = new Regex(@"<a\s+href\s*=\s*[""'](?<path>[^""']+)[""']\s*(?<hpp>class\s*=\s*[""']hostpanelpro-directory-link[""']\s*)?>(?<name>.*?)</a>", RegexOptions.IgnoreCase);
         foreach (Match match in hrefRegex.Matches(html))
         {
             var href = match.Groups["path"].Value;
@@ -492,7 +492,7 @@ public class PluginManager
                 }
             }
             if (name != item.Name) continue;
-            if (item.Path == ".") item.FullName = $"/{root}{item.Name}";
+            if (item.Path == null && match.Groups["hpp"].Success) item.FullName = $"/{root}{item.Name}";
             else if (item.Path.TrimEnd('/').EndsWith(path)) item.FullName = href;
             else continue;
             if (!items.Contains(item))
@@ -675,7 +675,7 @@ public class PluginManager
     <p>");
         foreach (var file in dirs.OfType<FileSystemInfo>().Concat(files))
         {
-            sb.AppendLine($"      <a href='./{file.Name}{(file is DirectoryInfo ? "/" : "")}'>{WebUtility.UrlEncode(file.Name)}</a><br/>");
+            sb.AppendLine($"      <a href='{file.Name}{(file is DirectoryInfo ? "/" : "")}' class='hostpanelpro-directory-link'>{WebUtility.UrlEncode(file.Name)}</a><br/>");
         }
         sb.AppendLine(@"    </p>
   </body>
