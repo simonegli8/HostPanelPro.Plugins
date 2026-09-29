@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../LICENSE" />
+    <File Path="../publish.bat" />
+    <File Path="../README.md" />
+  </Folder>
+  <Project Path="HostPanelPro.Plugins/HostPanelPro.Plugins.csproj" />
+</Solution>
