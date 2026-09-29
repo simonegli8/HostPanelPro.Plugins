@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Info/logo.svg" />
+    <File Path="Info/plugin-info.json" />
+    <File Path="Info/README.md" />
+  </Folder>
   <Project Path="Common/Source/PluginName1.Common.csproj" />
   <Project Path="EnterpriseServer/Source/PluginName1.EnterpriseServer.csproj" />
   <Project Path="Portal/Source/PluginName1.Portal.csproj" />

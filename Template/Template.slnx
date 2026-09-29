@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Items/">
+    <File Path="push-to-nuget.bat" />
+    <File Path="pack.bat" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="HostPanelPro.PluginTemplate/Common/Source/PluginName1.Common.csproj" />
+  <Project Path="HostPanelPro.PluginTemplate/EnterpriseServer/Source/PluginName1.EnterpriseServer.csproj" />
+  <Project Path="HostPanelPro.PluginTemplate/Portal/Source/PluginName1.Portal.csproj" />
+  <Project Path="HostPanelPro.PluginTemplate/Server/AutoInstaller/Source/PluginName1.AutoInstaller.csproj" />
+  <Project Path="HostPanelPro.PluginTemplate/Server/Source/PluginName1.Server.csproj" />
+  <Project Path="Template.csproj" />
+</Solution>

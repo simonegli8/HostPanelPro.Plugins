@@ -3,6 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+nuget-apikey.txt
+
 # User-specific files
 *.rsuser
 *.suo
@@ -207,7 +209,6 @@ DocProject/Help/Html2
 DocProject/Help/html
 
 # Click-Once directory
-publish/
 
 # Publish Web Output
 *.[Pp]ublish.xml
