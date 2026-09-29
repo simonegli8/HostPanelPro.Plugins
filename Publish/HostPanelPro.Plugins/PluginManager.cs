@@ -300,7 +300,8 @@ public class PluginManager
                     var installedJson = File.ReadAllText(autoInstallerConfig);
                     installed = JsonConvert.DeserializeObject<List<PluginId>>(installedJson);
                 }
-                File.WriteAllText(autoInstallerConfig, JsonConvert.SerializeObject(available));
+                var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented };
+                File.WriteAllText(autoInstallerConfig, JsonConvert.SerializeObject(available, settings));
             }
             var installers = available
                 .Except(installed)
@@ -771,8 +772,8 @@ public class PluginManager
                 var first = file.FirstOrDefault();
                 File.Copy(first.File, Path.Combine(destInfo, $"{id.EncodedId}{first.Extension}"), true);
             }
-
-            var json = JsonConvert.SerializeObject(plugininfo);
+            var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented };
+            var json = JsonConvert.SerializeObject(plugininfo, settings);
             File.WriteAllText(Path.Combine(destInfo, $"{id.EncodedId}.json"), json);
         }
 
