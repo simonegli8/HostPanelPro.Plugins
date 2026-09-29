@@ -7,7 +7,7 @@
         <LangVersion>latest</LangVersion>
         <Nullable>disable</Nullable>
         <RestoreSources Condition="Exists('..\..\..\..\..\Library')">$(RestoreSources);https://api.nuget.org/v3/index.json;..\..\..\..\..\Library</RestoreSources>
-        <OutputPath>..\..\bin</OutputPath>
+        <OutputPath>..\bin</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
