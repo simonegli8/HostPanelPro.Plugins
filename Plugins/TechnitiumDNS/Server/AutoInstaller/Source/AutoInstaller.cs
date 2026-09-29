@@ -12,15 +12,10 @@ namespace HostPanelPro.Plugins.TechnitiumDNS
     // Implement whichever HostPanelPro provider/plugin interface the host expects.
     public class AutoInstaller: IAutoInstaller
     {
-        public async Task<PluginId> IsInstalledAsync()
+        public Task<bool> IsPluginRequiredAsync()
         {
             var version = await Installer.GetInstalledVersionAsync();
             return version != null && version >= new Version(15, 0);
-        }
-
-        public Task<bool> IsPluginRequiredAsync()
-        {
-            throw new NotImplementedException();
         }
     }
 }
