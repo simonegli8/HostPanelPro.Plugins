@@ -28,7 +28,10 @@ namespace HostPanelPro.Plugins
         public Version MinimumHostPanelProVersion { get; set; }
         [DefaultValue(null)]
         public Version MaximumHostPanelProVersion { get; set; }
-
+        [DefaultValue(null)]
+        public string SetupAssemblies { get; set; }
+        [DefaultValue(null)]
+        public string StartupAssemblies { get; set; }
         [JsonIgnore]
         public bool IsInstalled { get; set; }
     }
