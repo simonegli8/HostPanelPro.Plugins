@@ -1,5 +1,6 @@
+
 namespace HostPanelPro.Plugins.TechnitiumDNS;
 
-public class Portal
+public class Server
 {
 }

@@ -1,6 +1,6 @@
 
 namespace HostPanelPro.Plugins.TechnitiumDNS;
 
-public class EnterrpriseServer
+public class EnterpriseServer
 {
 }

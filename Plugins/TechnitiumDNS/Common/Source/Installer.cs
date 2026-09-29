@@ -10,7 +10,6 @@ namespace HostPanelPro.Plugins.TechnitiumDNS;
 
 public class Installer
 {
-    #region IsInstalled
     public static Version GetVersionFromFile(string dll)
     {
         var info = FileVersionInfo.GetVersionInfo(dll);
@@ -64,6 +63,4 @@ public class Installer
         var version = await GetInstalledVersionAsync();
         return version != null && version >= new Version(15, 0);
     }
-    #endregion
-
 }

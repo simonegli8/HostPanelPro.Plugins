@@ -3,7 +3,6 @@
     <PropertyGroup>
         <PackageType>Template</PackageType>
         <PackageId>HostPanelPro.PluginTemplate</PackageId>
-        <Version>1.0.0</Version>
         <Authors>HostPanelPro</Authors>
         <Description>HostPanelPro plugin project template</Description>
         <PackageTags>dotnet-new;template</PackageTags>
@@ -12,6 +11,7 @@
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <ContentTargetFolders>content</ContentTargetFolders>
         <PackageType>Template</PackageType>
+        <PackageOutputPath>..\Library</PackageOutputPath>
     </PropertyGroup>
 
     <ItemGroup>

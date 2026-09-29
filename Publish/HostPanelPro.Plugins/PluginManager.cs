@@ -135,20 +135,20 @@ public class PluginManager
             .MaxByAsync(file => file.Index);
     }
     static ConcurrentDictionary<PluginId, AsyncMutexLock> locks = new ConcurrentDictionary<PluginId, AsyncMutexLock>();
-    static HashSet<PluginId> installed = new HashSet<PluginId>();
+    static HashSet<PluginId> installedPlugins = new HashSet<PluginId>();
 
     public static async Task<IDisposable> Lock(PluginId id) => await locks.AddOrUpdate(id, id => new AsyncMutexLock($"HostPanelPro.Plugin.{id.Id}", MutexScope.Machine), (id, ulock) => ulock).LockAsync();
 
 #if !PackAsTool
     public static async Task InstallAsync(params IEnumerable<string> pluginIds)
     {
-        await Task.WhenAll(pluginIds.Select(async pluginId =>
+        var all = Task.WhenAll(pluginIds.Select(async pluginId =>
         {
             var id = await new PluginId(pluginId).NewestAsync();
             using (var idlock = await Lock(id))
             {
-                if (installed.Contains(id)) return;
-                installed.Add(id);
+                if (installedPlugins.Contains(id)) return;
+                installedPlugins.Add(id);
 
                 var file = $"/{id.EncodedId}.7z";
                 if (id.Feed == null) id = await FindAvailablePluginAsync(id.Id);
@@ -193,6 +193,14 @@ public class PluginManager
                 await SetupPlugin(pluginId);
             }
         }));
+        try
+        {
+            await all;
+        }
+        catch when (all.Exception is not null)
+        {
+            throw all.Exception;   // AggregateException with all failures
+        }
     }
 
     public static async Task UninstallAsync(string pluginId)
@@ -200,7 +208,7 @@ public class PluginManager
         var id = new PluginId(pluginId);
         using (var idlock = await Lock(id))
         {
-            if (installed.Contains(id)) installed.Remove(id);
+            if (installedPlugins.Contains(id)) installedPlugins.Remove(id);
 
             if (id.Version == null)
             {
@@ -264,7 +272,15 @@ public class PluginManager
                 return false;
             });
         var tasks = installers.Select(installer => installer.InstallPluginAsync());
-        await Task.WhenAll(tasks);
+        var all = Task.WhenAll(tasks);
+        try
+        {
+            await all;
+        }
+        catch when (all.Exception is not null)
+        {
+            throw all.Exception;   // AggregateException with all failures
+        }
     }
 
     public static async Task StartupPluginsAsync()
@@ -276,9 +292,17 @@ public class PluginManager
         var infos = GetAllInstalledPluginInfos();
 
         var installers = infos
-            .SelectMany(info => GetPluginHandlers<IPluginStartup>(info, info.SetupAssemblies));
+            .SelectMany(info => GetPluginHandlers<IPluginStartup>(info, info.StartupAssemblies));
         var tasks = installers.Select(installer => installer.StartPluginAsync());
-        await Task.WhenAll(tasks);
+        var all = Task.WhenAll(tasks);
+        try
+        {
+            await all;
+        }
+        catch when (all.Exception is not null)
+        {
+            throw all.Exception;   // AggregateException with all failures
+        }
     }
 #endif
     #endregion
@@ -309,7 +333,15 @@ public class PluginManager
             var todelete = installed
                 .Except(available)
                 .Select(plugin => UninstallAutoInstallerAsync(plugin.Id));
-            await Task.WhenAll(installers.Concat(todelete).ToList());
+            var all = Task.WhenAll(installers.Concat(todelete).ToList());
+            try
+            {
+                await all;
+            }
+            catch when (all.Exception is not null)
+            {
+                throw all.Exception;   // AggregateException with all failures
+            }
         }
     }
     public static async Task InstallAutoInstallerAsync(string pluginId)
@@ -357,7 +389,7 @@ public class PluginManager
             .Select(id => PluginId.ParseEncoded(id));
     }
 
-    public static async IAsyncEnumerable<PluginId> AutoInstallPluginsAsync()
+    public static async IAsyncEnumerable<PluginId> AutoInstallPluginsAsync(CancellationToken cancel = default)
     {
         await EnsureAutoInstallersAsync();
         var installed = new List<PluginId>();
@@ -390,56 +422,73 @@ public class PluginManager
                     .FirstOrDefault().Version
             })
             .ToList();
-        var installers = autoInstallers
-            .SelectMany(id => Directory.EnumerateDirectories(Path.Combine(root, AutoDir, id.EncodedName, "bin")))
+        var pluginsToInstall = autoInstallers
+            .SelectMany(id => Directory.EnumerateDirectories(Path.Combine(root, AutoDir, id.EncodedName, "bin"))
+                .Select(dir => (Id: id, Directory: dir)))
             .Reverse()
-            .Where(path => {
-                var dir = Path.GetFileName(path);
+            .Where(path =>
+            {
+                var dir = Path.GetFileName(path.Directory);
                 return OSInfo.IsNetFX && dir.StartsWith("net48") ||
                     OSInfo.IsCore &&
                     (dir == "net10.0" || dir == "net11" || dir == "net12" || dir == "net13" || dir == "netstandard2.1") ||
                     dir == "netstandard2.0";
             })
-            .SelectMany(dir => Directory.EnumerateFiles(dir))
-            .Where(file => file.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+            .SelectMany(dir => Directory.EnumerateFiles(dir.Directory)
+                .Select(file => (Id: dir.Id, File: file)))
+            .Where(file => file.File.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
             .Select(file =>
             {
                 try
                 {
-                    return Assembly.Load(file);
+                    return (file.Id, Assembly: Assembly.Load(file.File));
                 }
-                catch { return null; }
+                catch { return (file.Id, null); }
             })
             .SelectMany(a =>
             {
                 try
                 {
-                    return a?.GetExportedTypes();
+                    return a.Assembly?.GetExportedTypes()
+                         .Where(type => type.IsAssignableFrom(typeof(IAutoInstaller)))
+                         .Select(type => (Id: a.Id, Type: type))
+                         ?? Array.Empty<(PluginId Id, Type Type)>();
                 }
-                catch { return null; }
+                catch { return Array.Empty<(PluginId Id, Type Type)>(); }
             })
-            .Where(type => type != null && type.IsAssignableFrom(typeof(IAutoInstaller)))
-            .Select(type => {
+            .Where(type => type.Type != null && type.Type.IsAssignableFrom(typeof(IAutoInstaller)))
+            .Select(type =>
+            {
                 try
                 {
-                    if (type != null) return Activator.CreateInstance(type) as IAutoInstaller;
+                    if (type.Type != null) return (type.Id, Installer: Activator.CreateInstance(type.Type) as IAutoInstaller);
                 }
                 catch { }
-                return null;
+                return (type.Id, null);
             })
-            .Where(installer => installer != null)
-            .ToList();
+            .Where(installer => installer.Installer != null)
+            .Select(async installer => await installer.Installer.IsPluginRequiredAsync() ? installer.Id : default);
 
         var tasks = new List<Task>();
-        await foreach (var plugin in installers
-            .ToAsyncEnumerable()
-            .SelectMany(installer => installer.IsPluginRequired()))
+        AggregateException aex;
+        await foreach (var plugin in TaskExtensions.WhenEach(pluginsToInstall)
+            .Select<Task<PluginId>, PluginId>(async (plugin, cancel) => await plugin))
         {
-            yield return plugin;
-            tasks.Add(InstallAsync(plugin.Id));
+            if (plugin.Name != null)
+            {
+                yield return plugin;
+                tasks.Add(InstallAsync(plugin.Id));
+            }
         }
-
-        await Task.WhenAll(tasks);
+        var all = Task.WhenAll(tasks);
+        try
+        {
+            await all;
+        }
+        catch when (all.Exception is not null)
+        {
+            throw all.Exception;   // AggregateException with all failures
+        }
     }
 #endif
     #endregion
@@ -642,7 +691,8 @@ public class PluginManager
                     Image = info.Image,
                     Get = await Task.WhenAll(info.GetReadme, info.GetInfo),
                 }))
-                .Select((Func<ValueTask<PluginInfoResult>, ValueTask<PluginInfo>>)(async task => {
+                .Select((Func<ValueTask<PluginInfoResult>, ValueTask<PluginInfo>>)(async task =>
+                {
                     var plugin = await task;
                     var info = plugin.Info;
                     info.Name = plugin.Id.ToString();

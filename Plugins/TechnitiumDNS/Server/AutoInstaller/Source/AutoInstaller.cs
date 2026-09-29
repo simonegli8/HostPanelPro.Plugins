@@ -10,15 +10,17 @@ namespace HostPanelPro.Plugins.TechnitiumDNS
 {
     // Discovered by Rhyous.SimplePluginLoader via this attribute.
     // Implement whichever HostPanelPro provider/plugin interface the host expects.
-    public class AutoInstaller
+    public class AutoInstaller: IAutoInstaller
     {
-        #region IsInstalled
-
-        public async Task<bool> IsInstalledAsync()
+        public async Task<PluginId> IsInstalledAsync()
         {
             var version = await Installer.GetInstalledVersionAsync();
             return version != null && version >= new Version(15, 0);
         }
-        #endregion
+
+        public Task<bool> IsPluginRequiredAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

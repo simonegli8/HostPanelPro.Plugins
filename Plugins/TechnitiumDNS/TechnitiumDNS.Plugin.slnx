@@ -1,6 +1,8 @@
 <Solution>
-  <Folder Name="/Items/">
-    <File Path=".template.config/template.json" />
+  <Folder Name="/Solution Items/">
+    <File Path="Info/logo.svg" />
+    <File Path="Info/plugin-info.json" />
+    <File Path="Info/README.md" />
   </Folder>
   <Project Path="Common/Source/TechnitiumDNS.Common.csproj" />
   <Project Path="EnterpriseServer/Source/TechnitiumDNS.EnterpriseServer.csproj" />
