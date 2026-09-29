@@ -1,0 +1,3 @@
+[submodule "Publish/HostPanelPro.Plugins.Creator"]
+	path = Publish/HostPanelPro.Plugins.Creator
+	url = https://github.com/simonegli8/HostPanelPro.Plugins.Project
