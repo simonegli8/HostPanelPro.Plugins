@@ -4,5 +4,5 @@
     <File Path="../publish.bat" />
     <File Path="../README.md" />
   </Folder>
-  <Project Path="HostPanelPro.Plugins/HostPanelPro.Plugins.csproj" />
+  <Project Path="HostPanelPro.Plugins.Creator/HostPanelPro.Plugins.csproj" />
 </Solution>
