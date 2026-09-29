@@ -723,6 +723,7 @@ public class PluginManager
         if (wwwRoot != null) wwwRoot = Path.Combine(wwwRoot, "plugins");
         if (wwwRoot.EndsWith(Path.DirectorySeparatorChar.ToString())) wwwRoot = wwwRoot.Substring(0, wwwRoot.Length - 1);
         Directory.CreateDirectory(wwwRoot);
+        var temp = (archive || source == null) ? Path.Combine(Path.GetTempPath(), "HostPanelPro.Plugins", id.Id) : source;
 
 #if !PackAsTool
         var mapPath = web ?
@@ -731,9 +732,6 @@ public class PluginManager
 #else
         Func<string, string> mapPath = path => path.Replace('/', Path.DirectorySeparatorChar).Replace("~\\plugins", wwwRoot);
 #endif
-
-        var dest = mapPath($"~/plugins/{id}.7z");
-        var temp = (archive || source == null) ? Path.Combine(Path.GetTempPath(), "HostPanelPro.Plugins", id.Id) : source;
 
         // Unzip plugin
         if (archive) await Zip.Unzip7zFile(zipFile, temp);
@@ -746,7 +744,7 @@ public class PluginManager
             Directory.CreateDirectory(destInfo);
 
             // delete old entries in ~/plugins/.infos
-            foreach (var file in Directory.EnumerateFiles(destInfo, $"{id}.*", SearchOption.TopDirectoryOnly))
+            foreach (var file in Directory.EnumerateFiles(destInfo, $"{id.EncodedId}.*", SearchOption.TopDirectoryOnly))
                 File.Delete(file);
 
             // copy new entries
@@ -757,6 +755,7 @@ public class PluginManager
                 new PluginInfo();
             plugininfo.Version = id.Version ?? new Version(1, 0, 0);
             plugininfo.Published = DateTime.UtcNow;
+            if (id.Version == null) id.Version = plugininfo.Version;
 
             var infos = files
                 .Select(file => new
@@ -775,12 +774,6 @@ public class PluginManager
 
             var json = JsonConvert.SerializeObject(plugininfo);
             File.WriteAllText(Path.Combine(destInfo, $"{id.EncodedId}.json"), json);
-            if (id.Version == null)
-            {
-                id.Version = plugininfo.Version;
-                dest = mapPath($"~/plugins/{id.EncodedId}.7z");
-            }
-
         }
 
         // Publish auto installer
@@ -792,6 +785,7 @@ public class PluginManager
         }
 
         // Move to plugin server folder
+        var dest = mapPath($"~/plugins/{id.EncodedId}.7z");
         if (zipFile != dest) File.Move(zipFile, dest);
 
         if (archive) Directory.Delete(temp, true);
