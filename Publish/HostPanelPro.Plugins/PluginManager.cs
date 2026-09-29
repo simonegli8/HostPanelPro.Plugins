@@ -680,7 +680,8 @@ public class PluginManager
         sb.AppendLine("      <a href='..'>..</a><br/>");
         foreach (var file in dirs.OfType<FileSystemInfo>().Concat(files))
         {
-            sb.AppendLine($"      <a href='{file.Name}{(file is DirectoryInfo ? "/" : "")}' class='hostpanelpro-directory-link'>{WebUtility.UrlEncode(file.Name)}</a><br/>");
+            sb.AppendLine($"      <a href='{file.Name}{(file is DirectoryInfo ? "/" : "")}' " +
+                $"class='hostpanelpro-directory-link'>{WebUtility.UrlEncode(file.Name)}{(file is DirectoryInfo ? "/" : "")}</a><br/>");
         }
         sb.AppendLine(@"    </p>
   </body>
