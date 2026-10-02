@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net48;net10.0</TargetFrameworks>
+        <RootNamespace>HostPanelPro.Plugins.TechnitiumDNS</RootNamespace>
+        <AssemblyName>HostPanelPro.Plugins.TechnitiumDNS.Portal</AssemblyName>
+        <LangVersion>latest</LangVersion>
+        <Nullable>disable</Nullable>
+        <RestoreSources Condition="Exists('..\..\..\..\..\Library')">$(RestoreSources);https://api.nuget.org/v3/index.json;..\..\..\..\..\Library</RestoreSources>
+        <_CoreWCFSuppressOperationInvokerGeneratorAttribute>true</_CoreWCFSuppressOperationInvokerGeneratorAttribute>    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HostPanelPro.EnterpriseServer.Client" Version="1.0.0" />
+        <PackageReference Include="HostPanelPro.Web.Clients" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework) == 'net48'">
+        <Reference Include="System.Web" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework) == 'net10.0'">
+        <PackageReference Include="WebFormsForCore.Web" Version="1.6.4" />
+        <PackageReference Include="WebFormsForCore.Build" Version="1.6.4" />
+        <PackageReference Include="WebFormsForCore.Web.Services" Version="1.6.4" />
+        <PackageReference Include="System.Web.Services.Description" Version="10.0.0" Aliases="SD" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Common\Source\TechnitiumDNS.Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\" />
+    </ItemGroup>
+
+</Project>
