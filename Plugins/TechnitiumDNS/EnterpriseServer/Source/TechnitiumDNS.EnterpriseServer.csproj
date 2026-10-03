@@ -20,8 +20,4 @@
         <PackageReference Include="HostPanelPro.Web.Clients" Version="1.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\Common\Source\TechnitiumDNS.Common.csproj" />
-    </ItemGroup>
-
 </Project>
