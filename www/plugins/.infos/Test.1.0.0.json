@@ -1,6 +1,6 @@
 {
-  "Title": "Test2",
-  "Description": "Technitium DNS, an OpenSource cross Platform DNS Server built with C#. To find out more and to install Technitium DNS, visit the <a href='https://technitium.com/dns'>Technitium DNS homepage</a>.",
-  "Published": "2026-10-03T19:39:35.27613Z",
+  "Title": "Test Plugin",
+  "Description": "This is a test plugin.",
+  "Published": "2026-10-03T21:31:41.5260802Z",
   "Version": "1.0.0"
 }
