@@ -3,10 +3,12 @@
     <File Path="Info/info.json" />
     <File Path="Info/README.md" />
     <File Path="Info/technitium.svg" />
+    <File Path="publish.bat" />
   </Folder>
   <Project Path="Common/Source/TechnitiumDNS.Common.csproj" />
   <Project Path="EnterpriseServer/Source/TechnitiumDNS.EnterpriseServer.csproj" />
   <Project Path="Portal/Source/TechnitiumDNS.Portal.csproj" />
   <Project Path="Server/AutoInstaller/Source/TechnitiumDNS.AutoInstaller.csproj" />
-  <Project Path="Server/Source/TechnitiumDNS.Server.csproj" />
+  <Project Path="Server/Source/HostPanelPro.Providers.DNS.TechnitiumDNS.Tests/HostPanelPro.Providers.DNS.TechnitiumDNS.Tests.csproj" />
+  <Project Path="Server/Source/HostPanelPro.Providers.DNS.TechnitiumDNS/HostPanelPro.Providers.DNS.TechnitiumDNS.csproj" />
 </Solution>

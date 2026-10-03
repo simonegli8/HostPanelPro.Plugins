@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>14</LangVersion>
+        <OutputPath>..\..\bin</OutputPath>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="RestSharp" Version="114.0.0" />
+        <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="114.0.0" />
+        <PackageReference Include="EstrellasDeEsperanza.AsyncLock" Version="4.1.6" />
+        <PackageReference Include="HostPanelPro.Providers.Base" Version="1.0.0" />
+        <PackageReference Include="HostPanelPro.Web.Services" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Common\Source\TechnitiumDNS.Common.csproj" />
+    </ItemGroup>
+
+</Project>

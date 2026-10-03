@@ -12,6 +12,8 @@
     <ItemGroup>
         <PackageReference Include="HostPanelPro.EnterpriseServer.Client" Version="1.0.0" />
         <PackageReference Include="HostPanelPro.Web.Clients" Version="1.0.0" />
+        <PackageReference Include="HostPanelPro.Plugins" Version="1.0.0" />
+        <PackageReference Include="HostPanelPro.Portal.Modules" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework) == 'net48'">
