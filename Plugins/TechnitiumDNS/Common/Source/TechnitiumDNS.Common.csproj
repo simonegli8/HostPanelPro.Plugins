@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0</TargetFrameworks>
         <RootNamespace>HostPanelPro.Plugins.TechnitiumDNS</RootNamespace>
-        <AssemblyName>HostPanelPro.Plugins.TechnitiumDNS</AssemblyName>
+        <AssemblyName>HostPanelPro.Plugins.TechnitiumDNS.Common</AssemblyName>
         <LangVersion>latest</LangVersion>
         <Nullable>disable</Nullable>
         <RestoreSources Condition="Exists('..\..\..\..\..\Library')">$(RestoreSources);https://api.nuget.org/v3/index.json;..\..\..\..\..\Library</RestoreSources>
