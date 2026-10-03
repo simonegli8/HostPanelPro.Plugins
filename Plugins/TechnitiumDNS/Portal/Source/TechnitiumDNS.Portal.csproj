@@ -6,6 +6,7 @@
         <AssemblyName>HostPanelPro.Plugins.TechnitiumDNS.Portal</AssemblyName>
         <LangVersion>latest</LangVersion>
         <Nullable>disable</Nullable>
+        <OutputPath>..\bin</OutputPath>
         <RestoreSources Condition="Exists('..\..\..\..\..\Library')">$(RestoreSources);https://api.nuget.org/v3/index.json;..\..\..\..\..\Library</RestoreSources>
         <_CoreWCFSuppressOperationInvokerGeneratorAttribute>true</_CoreWCFSuppressOperationInvokerGeneratorAttribute>    </PropertyGroup>
 
