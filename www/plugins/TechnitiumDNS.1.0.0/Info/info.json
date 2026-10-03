@@ -1,6 +1,0 @@
-{
-  "Title": "Technitium DNS Server",
-  "Description": "Technitium DNS, an OpenSource cross platform DNS server built with C#. To find out more and to install Technitium DNS, visit the [Technitium DNS homepage](https://technitium.com/dns).",
-  "Version": "1.0.0",
-  "StartupAssemblies":  "TechnitiumDNS.Portal"
-}

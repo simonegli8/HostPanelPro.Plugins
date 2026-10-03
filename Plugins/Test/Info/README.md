@@ -1,4 +1,4 @@
-# Technitium DNS Server
+# Test Plugin
 
 This plugin provides support for the [Technitium DNS Server](https://technitium.com/dns), a cross platform OpenSource DNS Server written in C#. It is running on Windows, Linux and macOS, running on .NET 10.
 
