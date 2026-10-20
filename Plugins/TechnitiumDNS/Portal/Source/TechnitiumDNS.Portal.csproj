@@ -43,13 +43,17 @@
     <Target Name="CleanOutput" AfterTargets="Build">
         <ItemGroup>
             <FilesToDelete Include="$(OutputPath)\**\*.*" Exclude="$(OutputPath)\**\HostPanelPro.Plugins.TechnitiumDNS.*;$(OutputPath)\**\*.ascx" />
-            <FilesInDirs Include="$(OutputPath)**\runtimes\**\*.*;&#xD;&#xA;                $(OutputPath)**\??\*.resources.dll;&#xD;&#xA;                $(OutputPath)**\??-??\*.resources.dll;&#xD;&#xA;                $(OutputPath)**\zh-*\*.*;&#xD;&#xA;                $(OutputPath)**\x64\*.*;&#xD;&#xA;                $(OutputPath)**\x86\*.*;" />
+            <FilesInDirs Include="$(OutputPath)**\runtimes\**\*.*" />
+            <FilesInDirs Include="$(OutputPath)**\??\*.resources.dll" />
+            <FilesInDirs Include="$(OutputPath)**\??-??\*.resources.dll" />
+            <FilesInDirs Include="$(OutputPath)**\zh-*\*.*" />
+            <FilesInDirs Include="$(OutputPath)**\x64\*.*" />
+            <FilesInDirs Include="$(OutputPath)**\x86\*.*;" />
             <DirectoriesToDelete Include="@(FilesInDirs->'%(RootDir)%(Directory)')" />
         </ItemGroup>
         <Delete Files="@(FilesToDelete)" />
         <RemoveDir Directories="@(DirectoriesToDelete)" />
         <RemoveDir Directories="$(OutputPath)\runtimes" />
     </Target>
-
 
 </Project>

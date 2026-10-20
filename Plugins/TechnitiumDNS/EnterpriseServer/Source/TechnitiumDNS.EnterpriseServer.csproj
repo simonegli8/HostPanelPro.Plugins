@@ -21,12 +21,12 @@
     <Target Name="CleanOutput" AfterTargets="Build">
         <ItemGroup>
             <FilesToDelete Include="$(OutputPath)\**\*.*" Exclude="$(OutputPath)\**\HostPanelPro.Plugins.TechnitiumDNS.*" />
-            <FilesInDirs Include="$(OutputPath)**\runtimes\**\*.*;
-                $(OutputPath)**\??\*.resources.dll;
-                $(OutputPath)**\??-??\*.resources.dll;
-                $(OutputPath)**\zh-*\*.*;
-                $(OutputPath)**\x64\*.*;
-                $(OutputPath)**\x86\*.*;" />
+            <FilesInDirs Include="$(OutputPath)**\runtimes\**\*.*;" />
+            <FilesInDirs Include="$(OutputPath)**\??\*.resources.dll;" />
+            <FilesInDirs Include="$(OutputPath)**\??-??\*.resources.dll;" />
+            <FilesInDirs Include="$(OutputPath)**\zh-*\*.*;" />
+            <FilesInDirs Include="$(OutputPath)**\x64\*.*;" />
+            <FilesInDirs Include="$(OutputPath)**\x86\*.*;" />
             <DirectoriesToDelete Include="@(FilesInDirs->'%(RootDir)%(Directory)')" />
         </ItemGroup>
         <Delete Files="@(FilesToDelete)" />
