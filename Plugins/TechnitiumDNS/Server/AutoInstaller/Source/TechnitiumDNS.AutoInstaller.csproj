@@ -6,7 +6,7 @@
         <AssemblyName>HostPanelPro.Plugins.TechnitiumDNS.AutoInstaller</AssemblyName>
         <LangVersion>latest</LangVersion>
         <Nullable>disable</Nullable>
-        <RestoreSources Condition="Exists('..\..\..\..\..\Library')">$(RestoreSources);https://api.nuget.org/v3/index.json;..\..\..\..\..\Library</RestoreSources>
+        <RestoreSources>..\..\..\..\..\..\HostPanelPro\Lib;$(RestoreSources);https://api.nuget.org/v3/index.json</RestoreSources>
         <OutputPath>..\bin</OutputPath>
     </PropertyGroup>
 
@@ -16,7 +16,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Common\Source\TechnitiumDNS.Common.csproj" />
+        <ProjectReference Include="..\..\..\Common\Source\TechnitiumDNS.Common.csproj" />
     </ItemGroup>
+
+    <Target Name="CleanOutput" AfterTargets="Build">
+        <RemoveDir Directories="$(OutputPath)\runtimes" />
+    </Target>
 
 </Project>

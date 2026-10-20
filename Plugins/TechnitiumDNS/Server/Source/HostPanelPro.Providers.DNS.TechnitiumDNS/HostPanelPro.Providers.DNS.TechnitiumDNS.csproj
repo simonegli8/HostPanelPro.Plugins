@@ -2,21 +2,34 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>14</LangVersion>
-        <OutputPath>..\..\bin</OutputPath>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <RootNamespace>HostPanelPro.Plugins.TechnitiumDNS</RootNamespace>
+        <AssemblyName>HostPanelPro.Plugins.TechnitiumDNS.Server</AssemblyName>
+        <LangVersion>latest</LangVersion>
+        <Nullable>disable</Nullable>
+        <RestoreSources>..\..\..\..\HostPanelPro\Lib;$(RestoreSources);https://api.nuget.org/v3/index.json</RestoreSources>
+        <OutputPath>..\bin</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="RestSharp" Version="114.0.0" />
-        <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="114.0.0" />
+        <PackageReference Include="RestSharp" Version="114.0.0" GeneratePathProperty="true" />
+        <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="114.0.0" GeneratePathProperty="true" />
         <PackageReference Include="EstrellasDeEsperanza.AsyncLock" Version="4.1.6" />
         <PackageReference Include="HostPanelPro.Providers.Base" Version="1.0.0" />
         <PackageReference Include="HostPanelPro.Web.Services" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Common\Source\TechnitiumDNS.Common.csproj" />
+        <ProjectReference Include="..\..\Common\Source\TechnitiumDNS.Common.csproj" />
     </ItemGroup>
 
+    <Target Name="CopyReferences" AfterTargets="Build">
+        <ItemGroup>
+            <FilesToCopyNet10 Include="$(PkgRestSharp)\lib\net10.0\*.*" />
+            <FilesToCopyNet10 Include="$(PkgRestSharp_Serializers_NewtonsoftJson)\lib\net10.0\*.*" />
+            <FilesToCopyNet48 Include="$(PkgRestSharp)\lib\net48\*.*" />
+            <FilesToCopyNet48 Include="$(PkgRestSharp_Serializers_NewtonsoftJson)\lib\net48\*.*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(FilesToCopyNet10)" DestinationFolder="$(OutputPath)\..\net10.0" />
+        <Copy SourceFiles="@(FilesToCopyNet48)" DestinationFolder="$(OutputPath)\..\net48" />
+    </Target>
 </Project>
