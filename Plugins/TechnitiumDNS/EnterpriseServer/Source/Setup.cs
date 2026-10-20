@@ -1,44 +1,49 @@
-﻿using HostPanelPro.EnterpriseServer;
-using HostPanelPro.EnterpriseServer.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
+using HostPanelPro.Plugins;
+using HostPanelPro.EnterpriseServer;
+using HostPanelPro.EnterpriseServer.Data;
+using HostPanelPro.EnterpriseServer.Data.Entities;
+using Twilio.Rest.Trunking.V1;
 
+#if NETCOREAPP
+using Microsoft.EntityFrameworkCore;
+#endif
 
-namespace HostPanelPro.Plugins.TechnitiumDNS;
-
-public class Setup : IPluginInstaller
+namespace HostPanelPro.Plugins.TechnitiumDNS.EnterpriseServer
 {
-    public async Task InstallPluginAsync()
+    public class Setup : IPluginInstaller
     {
-        // Add the provider to the database if it doesn't exist
-        using var db = new DataProvider();
-        if (!db.Providers.Any(p => p.ProviderName == "TechnitiumDNS"))
+        public async Task InstallPluginAsync()
         {
-            var provider = new EnterpriseServer.Data.Entities.Provider()
+            // Add Technitium DNS to Providers table in database
+            using var db = new DataProvider();
+            if (!db.Providers.Any(p => p.ProviderName == "TechnitiumDNS15"))
             {
-                DisplayName = "Technitium DNS Server 15.x +",
-                EditorControl = "TechnitiumDNS",
-                GroupId = 7,
-                ProviderName = "TechnitiumDNS",
-                ProviderType = "HostPanelPro.Providers.DNS.TechnitiumDNS15, HostPanelPro.Providers.DNS.TechnitiumDNS"
-            };
-            db.Providers.Add(provider);
-            db.SaveChanges();
+                db.Providers.Add(new Provider()
+                {
+                    DisplayName = "Technitium DNS Server 15.x +",
+                    EditorControl = "TechnitiumDNS",
+                    GroupId = 7,
+                    ProviderName = "TechnitiumDNS15",
+                    ProviderType = "HostPanelPro.Providers.DNS.TechnitiumDNS15, HostPanelPro.Plugins.TechnitiumDNS.Server"
+                });
+                db.SaveChanges();
+            }
         }
-    }
 
-    public async Task UninstallPluginAsync()
-    {
-        // Remove the provider from the database if it exists
-        using var db = new DataProvider();
-        var provider = db.Providers.FirstOrDefault(p => p.ProviderName == "TechnitiumDNS");
-        if (provider != null)
+        public async Task<bool> UninstallPluginAsync()
         {
-            db.Providers.Remove(provider);
-            db.SaveChanges();
+            try
+            {
+                using var db = new DataProvider();
+                db.Providers.Where(p => p.ProviderName == "TechnitiumDNS15").ExecuteDelete();
+                return true;
+            } catch { }
+            return false;
         }
     }
 }

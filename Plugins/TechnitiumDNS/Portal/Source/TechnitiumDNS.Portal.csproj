@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFrameworks>net48;net10.0</TargetFrameworks>
@@ -11,7 +11,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Pages\ProviderControls\TechnitiumDNS_Settings.ascx" />
+      <Compile Remove="Configuration\**" />
+      <EmbeddedResource Remove="Configuration\**" />
+      <None Remove="Configuration\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -38,19 +40,10 @@
         <PackageReference Include="System.Web.Services.Description" Version="10.0.0" Aliases="SD" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Configuration\" />
-    </ItemGroup>
-
     <Target Name="CleanOutput" AfterTargets="Build">
         <ItemGroup>
             <FilesToDelete Include="$(OutputPath)\**\*.*" Exclude="$(OutputPath)\**\HostPanelPro.Plugins.TechnitiumDNS.*;$(OutputPath)\**\*.ascx" />
-            <FilesInDirs Include="$(OutputPath)**\runtimes\**\*.*;
-                $(OutputPath)**\??\*.resources.dll;
-                $(OutputPath)**\??-??\*.resources.dll;
-                $(OutputPath)**\zh-*\*.*;
-                $(OutputPath)**\x64\*.*;
-                $(OutputPath)**\x86\*.*;" />
+            <FilesInDirs Include="$(OutputPath)**\runtimes\**\*.*;&#xD;&#xA;                $(OutputPath)**\??\*.resources.dll;&#xD;&#xA;                $(OutputPath)**\??-??\*.resources.dll;&#xD;&#xA;                $(OutputPath)**\zh-*\*.*;&#xD;&#xA;                $(OutputPath)**\x64\*.*;&#xD;&#xA;                $(OutputPath)**\x86\*.*;" />
             <DirectoriesToDelete Include="@(FilesInDirs->'%(RootDir)%(Directory)')" />
         </ItemGroup>
         <Delete Files="@(FilesToDelete)" />
