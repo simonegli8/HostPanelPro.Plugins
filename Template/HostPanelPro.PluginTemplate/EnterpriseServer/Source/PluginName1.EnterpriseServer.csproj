@@ -7,10 +7,12 @@
         <LangVersion>latest</LangVersion>
         <Nullable>disable</Nullable>
         <RestoreSources Condition="Exists('..\..\..\..\..\Library')">$(RestoreSources);https://api.nuget.org/v3/index.json;..\..\..\..\..\Library</RestoreSources>
+        <OutputPath>..\bin</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="HostPanelPro.Build" Version="1.0.0" />
+        <PackageReference Include="HostPanelPro.Plugins" Version="1.0.0" />
         <PackageReference Include="HostPanelPro.Providers.Base" Version="1.0.0" />
         <PackageReference Include="HostPanelPro.Server.Client" Version="1.0.0" />
         <PackageReference Include="HostPanelPro.EnterpriseServer.Base" Version="1.0.0" />

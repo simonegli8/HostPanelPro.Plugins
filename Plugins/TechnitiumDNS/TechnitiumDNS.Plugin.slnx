@@ -1,6 +1,6 @@
 <Solution>
   <Folder Name="/Items/">
-    <File Path=".template.config/template.json" />
+    <File Path="Info/info.json" />
   </Folder>
   <Project Path="Common/Source/TechnitiumDNS.Common.csproj" />
   <Project Path="EnterpriseServer/Source/TechnitiumDNS.EnterpriseServer.csproj" />

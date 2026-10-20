@@ -1,4 +1,5 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TechnitiumDNS_Settings.ascx.cs" Inherits="HostPanelPro.Portal.ProviderControls.TechnitiumDNS_Settings" %>
+<%@ Assembly Name="HostPanelPro.Plugins.TechnitiumDNS.Portal" %>
+%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TechnitiumDNS_Settings.ascx.cs" Inherits="HostPanelPro.Portal.ProviderControls.TechnitiumDNS_Settings" %>
 <%@ Register Src="Common_IPAddressesList.ascx" TagName="IPAddressesList" TagPrefix="common" %>
 <%@ Register Src="Common_SecondaryDNSServers.ascx" TagName="SecondaryDNSServers" TagPrefix="common" %>
 <%@ Register Src="../UserControls/ScheduleInterval.ascx" TagName="ScheduleInterval" TagPrefix="common" %>
@@ -12,7 +13,7 @@
 
 		<!-- Connection Strign parameters: server, port, database, user, password -->
 		<tr>
-			<td class="SubHead" width="200" nowrap>
+			<td class="SubHead" width="200" nowrap="true">
 				<asp:Label runat="server" ID="lblServerUrl" meta:resourcekey="lblServerUrl" /></td>
 			<td class="Normal">
 				<asp:TextBox runat="server" ID="txtServerUrl" MaxLength="1000" CssClass="NormalTextBox"/>
@@ -22,7 +23,7 @@
 		</tr>
 	    	    	    
 		<tr>
-			<td class="SubHead" width="200" nowrap>
+			<td class="SubHead" width="200" nowrap="true">
 				<asp:Label runat="server" ID="lblAdminUser" meta:resourcekey="lblAdminUser" /></td>
 			<td class="Normal">
 				<asp:TextBox runat="server" ID="txtAdminUser" MaxLength="1000" CssClass="NormalTextBox"/>
@@ -32,7 +33,7 @@
 		</tr>        
 	    	    
 		<tr id="trPassword" runat="server">
-			<td class="SubHead" width="200" nowrap>
+			<td class="SubHead" width="200" nowrap="true">
 				<asp:Label runat="server" ID="lblPassword" meta:resourcekey="lblPassword" /></td>
 			<td class="Normal">
 				<asp:TextBox runat="server" ID="txtPassword" MaxLength="1000" TextMode="Password" CssClass="NormalTextBox"/>
@@ -42,7 +43,7 @@
 		</tr>            
 	    
 		<tr id="trPasswordConfirm" runat="server">
-			<td class="SubHead" width="200" nowrap>
+			<td class="SubHead" width="200" nowrap="true">
 				<asp:Label runat="server" ID="lblConfirmPassword" meta:resourcekey="lblConfirmPassword" /></td>
 			<td class="Normal">
 				<asp:TextBox runat="server" ID="txtConfirmPassword" MaxLength="1000" TextMode="Password" CssClass="NormalTextBox"/>                   
@@ -87,7 +88,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="SubHead" noWrap>
+			<td class="SubHead" nowrap="true">
 				<asp:Label ID="lblMinimumTtl" runat="server" meta:resourcekey="lblMinimumTtl" Text="Minimum TTL:"></asp:Label>
 			</td>
 			<td class="Normal">

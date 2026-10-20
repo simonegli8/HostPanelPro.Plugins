@@ -3,17 +3,27 @@
     <PropertyGroup>
         <TargetFrameworks>net48;net10.0</TargetFrameworks>
         <RootNamespace>HostPanelPro.Plugins.TechnitiumDNS</RootNamespace>
-        <AssemblyName>HostPanelPro.Plugins.TechnitiumDNS</AssemblyName>
+        <AssemblyName>HostPanelPro.Plugins.TechnitiumDNS.Portal</AssemblyName>
         <LangVersion>latest</LangVersion>
         <Nullable>disable</Nullable>
-        <RestoreSources>..\..\..\..\HostPanelPro\Lib;$(RestoreSources);https://api.nuget.org/v3/index.json</RestoreSources>
+        <RestoreSources>..\..\..\..\..\HostPanelPro\Lib;$(RestoreSources);https://api.nuget.org/v3/index.json</RestoreSources>
+        <OutputPath>..\bin</OutputPath>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Pages\ProviderControls\TechnitiumDNS_Settings.ascx" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Pages\ProviderControls\TechnitiumDNS_Settings.ascx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="HostPanelPro.Providers.Base" Version="1.0.0" />
         <PackageReference Include="HostPanelPro.WebPortal" Version="1.0.0" />
         <PackageReference Include="HostPanelPro.Portal.Modules" Version="1.0.0" />
-        <ProjectReference Include="..\..\Common\Source\TechnitiumDNS.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework) == 'net48'">
@@ -28,7 +38,23 @@
 
     <ItemGroup>
         <Folder Include="Configuration\" />
-        <Folder Include="Pages\" />
     </ItemGroup>
+
+    <Target Name="CleanOutput" AfterTargets="Build">
+        <ItemGroup>
+            <FilesToDelete Include="$(OutputPath)\**\*.*" Exclude="$(OutputPath)\**\HostPanelPro.Plugins.TechnitiumDNS.*;$(OutputPath)\**\*.ascx" />
+            <FilesInDirs Include="$(OutputPath)**\runtimes\**\*.*;
+                $(OutputPath)**\??\*.resources.dll;
+                $(OutputPath)**\??-??\*.resources.dll;
+                $(OutputPath)**\zh-*\*.*;
+                $(OutputPath)**\x64\*.*;
+                $(OutputPath)**\x86\*.*;" />
+            <DirectoriesToDelete Include="@(FilesInDirs->'%(RootDir)%(Directory)')" />
+        </ItemGroup>
+        <Delete Files="@(FilesToDelete)" />
+        <RemoveDir Directories="@(DirectoriesToDelete)" />
+        <RemoveDir Directories="$(OutputPath)\runtimes" />
+    </Target>
+
 
 </Project>

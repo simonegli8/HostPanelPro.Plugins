@@ -47,9 +47,16 @@
         <PackageOutputPath>..\..\Lib</PackageOutputPath>
         <RestoreSources>$(RestoreSources);..\..\Library;https://api.nuget.org/v3/index.json</RestoreSources>
         <DebugType>portable</DebugType>
-
     </PropertyGroup>
 
+    <PropertyGroup Condition="$(PackToTool) != 'true'">
+        <PackageOutputPath>..\..\Lib</PackageOutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(PackToTool) == 'true'">
+        <PackageOutputPath>..\..\Library</PackageOutputPath>
+    </PropertyGroup>
+
+    
     <ItemGroup>
         <PackageReference Include="EstrellasDeEsperanza.AsyncLock" Version="4.1.6" />
         <PackageReference Include="Markdig" Version="1.4.0" />

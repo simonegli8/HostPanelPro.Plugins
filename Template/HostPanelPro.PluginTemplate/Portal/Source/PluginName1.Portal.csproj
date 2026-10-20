@@ -7,7 +7,9 @@
         <LangVersion>latest</LangVersion>
         <Nullable>disable</Nullable>
         <RestoreSources Condition="Exists('..\..\..\..\..\Library')">$(RestoreSources);https://api.nuget.org/v3/index.json;..\..\..\..\..\Library</RestoreSources>
-        <_CoreWCFSuppressOperationInvokerGeneratorAttribute>true</_CoreWCFSuppressOperationInvokerGeneratorAttribute>    </PropertyGroup>
+        <_CoreWCFSuppressOperationInvokerGeneratorAttribute>true</_CoreWCFSuppressOperationInvokerGeneratorAttribute>
+        <OutputPath>..\bin</OutputPath>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="HostPanelPro.EnterpriseServer.Client" Version="1.0.0" />

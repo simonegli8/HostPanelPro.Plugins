@@ -1,5 +1,6 @@
 {
-    "Title": "Technitium DNS Server",
-    "Description": "Technitium DNS, an OpenSource cross Platform DNS Server built with C#",
-    "Version": "1.0.0"
+  "Title": "Technitium DNS Server",
+  "Description": "Technitium DNS, an OpenSource cross Platform DNS Server built with C#",
+  "Version": "1.0.0",
+  "SetupAssemblies": "HostPanelPro.Plugins.TechnitiumDNS.EnterpriseServer"
 }
