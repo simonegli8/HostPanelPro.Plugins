@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net10.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>13</LangVersion>
+        <Nullable>disable</Nullable>
+        <IsPackable>false</IsPackable>
+        <TestTfmsInParallel>false</TestTfmsInParallel>
+        <IsTestProject>true</IsTestProject>
+        <RuntimeFrameworkVersion>10.0.10</RuntimeFrameworkVersion>
+    </PropertyGroup>
+
+    <!--
+      HostPanelPro.Providers.DNS.TechnitiumDNS.csproj itself only declares
+      TargetFramework=netstandard2.0 (not multi-targeted), so it always compiles the same
+      provider code regardless of which framework references it - net10.0 consumes a
+      netstandard2.0 library directly, so this test project doesn't need to multi-target.
+    -->
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="4.3.3" />
+        <PackageReference Include="MSTest.TestFramework" Version="4.3.3" />
+        <PackageReference Include="coverlet.collector" Version="10.0.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HostPanelPro.Providers.DNS.TechnitiumDNS\HostPanelPro.Providers.DNS.TechnitiumDNS.csproj" />
+    </ItemGroup>
+
+</Project>

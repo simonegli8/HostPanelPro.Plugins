@@ -245,5 +245,6 @@ namespace HostPanelPro.Providers.DNS.Technitium
             }
             return false;
         }
+        public override int GetHashCode() => ListenIPs.GetHashCode();
     }
 }

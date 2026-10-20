@@ -10,9 +10,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
-using Plugin = HostPanelPro.Plugins.TechnitiumDNS;
 using HostPanelPro.Providers.DNS.Technitium;
+using HostPanelPro.Providers.HostedSolution;
 using HostPanelPro.Providers.OS;
+using System.Runtime.CompilerServices;
 
 namespace HostPanelPro.Providers.DNS;
 
@@ -672,13 +673,10 @@ public class TechnitiumDNS15 : HostingServiceProviderBase, IDnsServerAsync
             .Select(item => DeleteZone(item.Name)));
     }
 
-    #endregion
+    public Version GetVersionFromFile(string dll) => Plugins.TechnitiumDNS.Installer.GetVersionFromFile(dll);
 
-    #region IsInstalled
-    public static async Task<bool> IsInstalledAsync()
-    {
-        var version = await Plugin.Installer.GetInstalledVersionAsync();
-        return version != null && version >= new Version(15, 0);
-    }
+    public async Task<Version> GetInstalledVersionAsync() => await Plugins.TechnitiumDNS.Installer.GetInstalledVersionAsync();
+
+    public override async Task<bool> IsInstalledAsync() => await Plugins.TechnitiumDNS.Installer.IsInstalledAsync();
     #endregion
 }

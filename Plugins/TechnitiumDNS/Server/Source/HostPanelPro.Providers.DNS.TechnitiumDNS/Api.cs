@@ -30,6 +30,10 @@ public class Api
     {
         if (string.IsNullOrEmpty(serverUrl))
             throw new ArgumentException("Technitium DNS server URL is not configured.", nameof(serverUrl));
+        if (string.IsNullOrEmpty(adminPassword))
+            throw new ArgumentException("Technitium DNS admin password is not configured.", nameof(adminPassword));
+        if (string.IsNullOrEmpty(adminUser))
+            throw new ArgumentException("Technitium DNS admin user is not configured.", nameof(adminUser));
 
         baseUrl = serverUrl.TrimEnd('/');
         user = adminUser;

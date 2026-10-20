@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HostPanelPro.Plugins.TechnitiumDNS.EnterpriseServer
 {
-    public class Installer : IPluginInstaller
+    public class Setup : IPluginInstaller
     {
         public async Task InstallPluginAsync()
         {
