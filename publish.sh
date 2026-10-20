@@ -1,5 +1,5 @@
 #!/bin/bash
-dotnet build Publish/HostPanelPro.Plugins.slnx -p:PackToTool=true -p:Configuration=Release -v:minimal
+dotnet build Publish/HostPanelPro.Plugins.slnx -p:PackToTool=true -p:Configuration=Release
 dotnet pack Publish/HostPanelPro.Plugins.slnx -p:PackToTool=true -p:Configuration=Release
 
 dotnet tool uninstall -g HostPanelPro.Plugins.Maker
