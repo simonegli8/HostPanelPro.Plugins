@@ -1,4 +1,6 @@
-dotnet pack Publish\HostPanelPro.Plugins.slnx -p:PackToTool=true
+#!/bin/bash
+dotnet build Publish/HostPanelPro.Plugins.slnx -p:PackToTool=true -p:Configuration=Release
+dotnet pack Publish/HostPanelPro.Plugins.slnx -p:PackToTool=true -p:Configuration=Release
 
 dotnet tool uninstall -g HostPanelPro.Plugins.Maker
 dotnet tool install -g HostPanelPro.Plugins.Maker --source https://api.nuget.org/v3/index.json --source Library
