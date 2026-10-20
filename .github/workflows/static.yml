@@ -34,7 +34,6 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Publish
-        working-directory: ./Plugins
         run: |
           dotnet pack Publish\HostPanelPro.Plugins.slnx -p:PackToTool=true
           dotnet tool uninstall -g HostPanelPro.Plugins.Maker
