@@ -9,6 +9,7 @@
         <TestTfmsInParallel>false</TestTfmsInParallel>
         <IsTestProject>true</IsTestProject>
         <RuntimeFrameworkVersion>10.0.10</RuntimeFrameworkVersion>
+        <RestoreSources>..\..\..\..\..\Library;$(RestoreSources);https://api.nuget.org/v3/index.json</RestoreSources>
     </PropertyGroup>
 
     <!--
