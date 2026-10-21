@@ -13,7 +13,7 @@ public class Installer
     public static Version GetVersionFromFile(string dll)
     {
         var info = FileVersionInfo.GetVersionInfo(dll);
-        if (info.CompanyName != null && info.CompanyName.Contains("Technitium"))
+        if (info.CompanyName != null && info.ProductName.Contains("Technitium"))
             return new Version(info.FileMajorPart, info.FileMinorPart, info.FileBuildPart, info.FilePrivatePart);
         else return default;
     }
@@ -21,11 +21,13 @@ public class Installer
     public static async Task<Version> GetInstalledVersionAsync()
     {
         const string app = "DnsServerApp";
+        const string app2 = "DnsService";
         if (OSInfo.IsWindows)
         {
             var processes = Process.GetProcessesByName(app)
+                .Concat(Process.GetProcessesByName(app2))
                 .Select(p => p.ExecutableFile())
-                .Concat(new string[] { Shell.Default.Find(app) })
+                .Concat(new string[] { Shell.Default.Find(app), Shell.Default.Find(app2) })
                 .Distinct()
                 .Where(exe => exe != null && File.Exists(exe));
             foreach (var exe in processes)
