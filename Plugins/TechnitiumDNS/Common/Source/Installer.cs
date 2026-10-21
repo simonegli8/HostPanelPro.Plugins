@@ -13,7 +13,7 @@ public class Installer
     public static Version GetVersionFromFile(string dll)
     {
         var info = FileVersionInfo.GetVersionInfo(dll);
-        if (info.CompanyName != null && info.ProductName.Contains("Technitium"))
+        if (info.ProductName != null && info.ProductName.Contains("Technitium"))
             return new Version(info.FileMajorPart, info.FileMinorPart, info.FileBuildPart, info.FilePrivatePart);
         else return default;
     }
