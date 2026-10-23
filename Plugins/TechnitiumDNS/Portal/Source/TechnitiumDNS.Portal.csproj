@@ -17,6 +17,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <EmbeddedResource Remove="Pages\ProviderControls\App_LocalResources\TechnitiumDNS_Settings.ascx.resx" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Pages\ProviderControls\App_LocalResources\TechnitiumDNS_Settings.ascx.resx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Pages\ProviderControls\TechnitiumDNS_Settings.ascx">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
@@ -42,7 +49,7 @@
 
     <Target Name="CleanOutput" AfterTargets="Build">
         <ItemGroup>
-            <FilesToDelete Include="$(OutputPath)\**\*.*" Exclude="$(OutputPath)\**\HostPanelPro.Plugins.TechnitiumDNS.*;$(OutputPath)\**\*.ascx" />
+            <FilesToDelete Include="$(OutputPath)\**\*.*" Exclude="$(OutputPath)\**\HostPanelPro.Plugins.TechnitiumDNS.*;$(OutputPath)\**\*.ascx;$(OutputPath)\**\*.resx" />
             <FilesInDirs Include="$(OutputPath)**\runtimes\**\*.*" />
             <FilesInDirs Include="$(OutputPath)**\??\*.resources.dll" />
             <FilesInDirs Include="$(OutputPath)**\??-??\*.resources.dll" />
