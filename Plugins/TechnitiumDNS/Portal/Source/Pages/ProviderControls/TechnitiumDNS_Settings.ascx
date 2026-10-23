@@ -1,5 +1,5 @@
 <%@ Assembly Name="HostPanelPro.Plugins.TechnitiumDNS.Portal" %>
-%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TechnitiumDNS_Settings.ascx.cs" Inherits="HostPanelPro.Portal.ProviderControls.TechnitiumDNS_Settings" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TechnitiumDNS_Settings.ascx.cs" Inherits="HostPanelPro.Portal.ProviderControls.TechnitiumDNS_Settings" %>
 <%@ Register Src="Common_IPAddressesList.ascx" TagName="IPAddressesList" TagPrefix="common" %>
 <%@ Register Src="Common_SecondaryDNSServers.ascx" TagName="SecondaryDNSServers" TagPrefix="common" %>
 <%@ Register Src="../UserControls/ScheduleInterval.ascx" TagName="ScheduleInterval" TagPrefix="common" %>
