@@ -7,7 +7,6 @@ using HostPanelPro.Plugins;
 using HostPanelPro.EnterpriseServer;
 using HostPanelPro.EnterpriseServer.Data;
 using HostPanelPro.EnterpriseServer.Data.Entities;
-using Twilio.Rest.Trunking.V1;
 
 #if NETCOREAPP
 using Microsoft.EntityFrameworkCore;
@@ -19,19 +18,26 @@ namespace HostPanelPro.Plugins.TechnitiumDNS.EnterpriseServer
     {
         public async Task InstallPluginAsync()
         {
-            // Add Technitium DNS to Providers table in database
-            using var db = new DataProvider();
-            if (!db.Providers.Any(p => p.ProviderName == "TechnitiumDNS15"))
+            try
             {
-                db.Providers.Add(new Provider()
+                // Add Technitium DNS to Providers table in database
+                using var db = new DataProvider();
+                if (!db.Providers.Any(p => p.ProviderName == "TechnitiumDNS15"))
                 {
-                    DisplayName = "Technitium DNS Server 15.x +",
-                    EditorControl = "TechnitiumDNS",
-                    GroupId = 7,
-                    ProviderName = "TechnitiumDNS15",
-                    ProviderType = "HostPanelPro.Providers.DNS.TechnitiumDNS15, HostPanelPro.Plugins.TechnitiumDNS.Server"
-                });
-                db.SaveChanges();
+                    db.Providers.Add(new Provider()
+                    {
+                        DisplayName = "Technitium DNS Server 15.x +",
+                        EditorControl = "TechnitiumDNS",
+                        GroupId = 7,
+                        ProviderName = "TechnitiumDNS15",
+                        ProviderType = "HostPanelPro.Providers.DNS.TechnitiumDNS15, HostPanelPro.Plugins.TechnitiumDNS.Server"
+                    });
+                    db.SaveChanges();
+                }
+            } catch (Exception ex)
+            {
+                var log = new HostPanelPro.EnterpriseServer.AuditLog(null);
+                log.AddAuditLogErrorRecord("INSTALL_PLUGIN", "InstallPlugin", "InstallPlugin", [ ex.Message ]);
             }
         }
 
@@ -42,7 +48,9 @@ namespace HostPanelPro.Plugins.TechnitiumDNS.EnterpriseServer
                 using var db = new DataProvider();
                 db.Providers.Where(p => p.ProviderName == "TechnitiumDNS15").ExecuteDelete();
                 return true;
-            } catch { }
+            } catch (Exception ex) {
+                
+            }
             return false;
         }
     }
