@@ -1,9 +1,7 @@
 # HostPanelPro Plugin Template
 
 `HostPanelPro.PluginTemplate` is a `dotnet new` template for scaffolding new HostPanelPro
-plugins. It generates a `netstandard2.0` class library referencing
-[Rhyous.SimplePluginLoader](../HostPanelPro/Lib/Plugin-Loader) with a sample class marked
-with the `[Plugin]` attribute the loader discovers.
+plugins.
 
 ## Install the template
 
