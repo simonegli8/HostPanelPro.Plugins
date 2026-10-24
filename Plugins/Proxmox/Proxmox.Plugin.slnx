@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Info/logo.svg" />
+    <File Path="Info/plugin-info.json" />
+    <File Path="Info/README.md" />
+  </Folder>
+  <Project Path="Common/Source/Proxmox.Common.csproj" />
+  <Project Path="EnterpriseServer/Source/Proxmox.EnterpriseServer.csproj" />
+  <Project Path="Portal/Source/Proxmox.Portal.csproj" />
+  <Project Path="Server/AutoInstaller/Source/Proxmox.AutoInstaller.csproj" />
+  <Project Path="Server/Source/Proxmox.Server.csproj" />
+</Solution>

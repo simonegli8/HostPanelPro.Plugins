@@ -1,0 +1,5 @@
+{
+  "Title": "Proxmox",
+  "Description": "This plugin provides support for the Proxmox server.",
+  "Version": "1.0.0"
+}

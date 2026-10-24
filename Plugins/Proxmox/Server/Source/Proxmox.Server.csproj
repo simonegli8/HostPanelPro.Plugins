@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>HostPanelPro.Providers.Virtualization</RootNamespace>
+        <AssemblyName>HostPanelPro.Plugins.Proxmox.Server</AssemblyName>
+        <TargetFramework>net10.0</TargetFramework>
+        <OutputPath>..\bin</OutputPath>
+        <LangVersion>14</LangVersion>
+        <Nullable>disable</Nullable>
+        <Version>1.0.0</Version>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <RestoreSources>..\..\..\..\Library;$(RestoreSources);https://api.nuget.org/v3/index.json</RestoreSources>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Interactive.Async" Version="7.0.1" />
+		<PackageReference Include="Corsinvest.ProxmoxVE.Api" Version="9.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="Corsinvest.ProxmoxVE.Api.Shared" Version="9.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="Corsinvest.ProxmoxVE.Api.Extension" Version="9.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="Corsinvest.ProxmoxVE.Api.Metadata" Version="9.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="SkiaSharp" Version="4.152.1" GeneratePathProperty="true" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="4.152.1" GeneratePathProperty="true" />
+		<PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="4.152.1" GeneratePathProperty="true" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="4.152.1" GeneratePathProperty="true" />
+        <PackageReference Include="Microsoft.Bcl.Memory" Version="10.0.13" />
+        <PackageReference Include="EstrellasDeEsperanza.AsyncLock" Version="4.1.6" />
+        <PackageReference Include="HostPanelPro.Providers.Base" Version="1.0.0" />
+        <PackageReference Include="HostPanelPro.Providers.HostedSolution" Version="1.0.0" />
+        <PackageReference Include="HostPanelPro.Server.Utils" Version="1.0.0" />
+        <PackageReference Include="HostPanelPro.Web.Services" Version="1.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Extensions\StringExtensions.cs" />
+        <Compile Remove="HyperVvmm.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Resources\power-button.svg" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\power-button.svg" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="Extensions\StringExtensions.cs" />
+    </ItemGroup>
+
+	<Target Name="CopyPackageReferences" AfterTargets="Build">
+		<ItemGroup>
+			<CopyToOutputFiles Include="$(PkgSkiaSharp)\lib\netstandard2.0\SkiaSharp.*" />
+			<CopyToOutputFiles Include="$(PkgCorsinvest_ProxmoxVE_Api)\lib\netstandard2.0\Corsinvest.ProxmoxVE.Api.*" />
+			<CopyToOutputFiles Include="$(PkgCorsinvest_ProxmoxVE_Api_Shared)\lib\netstandard2.0\Corsinvest.ProxmoxVE.Api.Shared.*" />
+			<CopyToOutputFiles Include="$(PkgCorsinvest_ProxmoxVE_Api_Extension)\lib\netstandard2.0\Corsinvest.ProxmoxVE.Api.Extension.*" />
+			<CopyToOutputFiles Include="$(PkgCorsinvest_ProxmoxVE_Api_Metadata)\lib\netstandard2.0\Corsinvest.ProxmoxVE.Api.Metadata.*" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(CopyToOutputFiles)" DestinationFolder="$(OutputPath)" />
+	</Target>
+    
+    <Target Name="CopySkiaSharpNativeAssets" AfterTargets="Build">
+        <ItemGroup>
+            <RuntimeDlls Include="$(PkgSkiaSharp_NativeAssets_Linux)\runtimes\**\*.*" />
+            <RuntimeDlls Include="$(PkgSkiaSharp_NativeAssets_macOS)\runtimes\**\*.*" />
+            <RuntimeDlls Include="$(PkgSkiaSharp_NativeAssets_Win32)\runtimes\**\*.*" />
+        </ItemGroup>
+        <Message Importance="high" Text="RuntimeDlls ($(TargetFramework)): @(RuntimeDlls)" />
+        <Message Importance="high" Text="RuntimeDlls ($(TargetFramework)): @(RuntimeDlls)" />
+        <Copy SourceFiles="@(RuntimeDlls)" DestinationFolder="$(OutputPath)\runtimes\%(RecursiveDir)" />
+    </Target>
+
+
+</Project>
