@@ -1,3 +1,3 @@
 # HostPanelPro Plugin TechnitiumDNS
 
-Here you can explain you plugin
+A plugin providing support for the TechnitiumDNS server.
