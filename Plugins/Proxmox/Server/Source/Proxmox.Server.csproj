@@ -2,7 +2,7 @@
     <PropertyGroup>
         <RootNamespace>HostPanelPro.Providers.Virtualization</RootNamespace>
         <AssemblyName>HostPanelPro.Plugins.Proxmox.Server</AssemblyName>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>$(netlatest)</TargetFramework>
         <OutputPath>..\bin</OutputPath>
         <LangVersion>14</LangVersion>
         <Nullable>disable</Nullable>

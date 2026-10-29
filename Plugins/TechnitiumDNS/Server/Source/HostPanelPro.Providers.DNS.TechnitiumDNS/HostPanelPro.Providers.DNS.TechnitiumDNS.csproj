@@ -24,12 +24,12 @@
 
     <Target Name="CopyReferences" AfterTargets="Build">
         <ItemGroup>
-            <FilesToCopyNet10 Include="$(PkgRestSharp)\lib\net10.0\*.*" />
-            <FilesToCopyNet10 Include="$(PkgRestSharp_Serializers_NewtonsoftJson)\lib\net10.0\*.*" />
+            <FilesToCopyNet10 Include="$(PkgRestSharp)\lib\$(netlatest)\*.*" />
+            <FilesToCopyNet10 Include="$(PkgRestSharp_Serializers_NewtonsoftJson)\lib\$(netlatest)\*.*" />
             <FilesToCopyNet48 Include="$(PkgRestSharp)\lib\net48\*.*" />
             <FilesToCopyNet48 Include="$(PkgRestSharp_Serializers_NewtonsoftJson)\lib\net48\*.*" />
         </ItemGroup>
-        <Copy SourceFiles="@(FilesToCopyNet10)" DestinationFolder="$(OutputPath)\..\net10.0" />
+        <Copy SourceFiles="@(FilesToCopyNet10)" DestinationFolder="$(OutputPath)\..\$(netlatest)" />
         <Copy SourceFiles="@(FilesToCopyNet48)" DestinationFolder="$(OutputPath)\..\net48" />
     </Target>
 </Project>

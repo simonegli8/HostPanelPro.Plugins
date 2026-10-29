@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net10.0;net48</TargetFrameworks>
+        <TargetFrameworks>$(netlatest);net48</TargetFrameworks>
         <RootNamespace>HostPanelPro.Plugins.TechnitiumDNS</RootNamespace>
         <AssemblyName>HostPanelPro.Plugins.TechnitiumDNS.EnterpriseServer</AssemblyName>
         <LangVersion>latest</LangVersion>
